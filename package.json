@@ -1,0 +1,558 @@
+{
+  "name": "zovo-d2-viewer",
+  "displayName": "D2 Diagram Viewer & D2 Preview",
+  "description": "D2 diagram viewer for VS Code: a live D2 preview beside the text that redraws as you type, with pan, zoom, D2 themes, error squiggles and click-to-line. The D2 engine is bundled (WebAssembly), so no D2 install and no network.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1E2A3A",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/d2-viewer-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/theluckystrike/d2-viewer-vscode/issues"
+  },
+  "homepage": "https://github.com/theluckystrike/d2-viewer-vscode#readme",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Visualization",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "d2",
+    "d2 diagram",
+    "diagram",
+    "architecture diagram",
+    "diagram as code"
+  ],
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onLanguage:d2",
+    "onCustomEditor:zovoD2.viewer",
+    "onUri"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": {
+      "supported": "limited",
+      "description": "Imports and pictures next to the .d2 file need files on disk."
+    }
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "d2",
+        "aliases": [
+          "D2",
+          "d2"
+        ],
+        "extensions": [
+          ".d2"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./media/d2-file.svg",
+          "dark": "./media/d2-file.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "d2",
+        "scopeName": "source.d2.zovo",
+        "path": "./syntaxes/d2.tmLanguage.json"
+      }
+    ],
+    "customEditors": [
+      {
+        "viewType": "zovoD2.viewer",
+        "displayName": "D2 Diagram Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.d2"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
+    "commands": [
+      {
+        "command": "zovoD2.showPreviewToSide",
+        "title": "Open D2 Preview to the Side",
+        "category": "D2",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "zovoD2.showPreview",
+        "title": "Open D2 Preview",
+        "category": "D2",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "zovoD2.openViewer",
+        "title": "Open in D2 Diagram Viewer",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.showSource",
+        "title": "Show D2 Source",
+        "category": "D2",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "zovoD2.copySvg",
+        "title": "Copy the Diagram as SVG",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.pickTheme",
+        "title": "Pick the D2 Theme of This Preview",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.pickLayout",
+        "title": "Pick the Layout Direction of This Preview",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.openSample",
+        "title": "Open the Sample D2 Diagram",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.openWalkthrough",
+        "title": "Get Started",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.moreViewers",
+        "title": "More free tools by Zovo",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.supportDeveloper",
+        "title": "Support the developer",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.export",
+        "title": "Export PNG, PDF or SVG (Pro)",
+        "category": "D2",
+        "icon": "$(export)"
+      },
+      {
+        "command": "zovoD2.batchExport",
+        "title": "Batch Export Every .d2 File to SVG (Pro)",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.stopWatch",
+        "title": "Stop Watching (Batch Export)",
+        "category": "D2"
+      },
+      {
+        "command": "zovoD2.zovoPro.export",
+        "title": "Zovo Pro: Export D2 to PNG, PDF or SVG"
+      },
+      {
+        "command": "zovoD2.zovoPro.batch",
+        "title": "Zovo Pro: Batch export D2 files to SVG"
+      },
+      {
+        "command": "zovoD2.getPro",
+        "title": "Get Zovo Pro (USD 19 once, all 22 Zovo extensions)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "zovoD2.payWithPayPal",
+        "title": "Pay for Zovo Pro with PayPal (USD 19, team of 5 USD 59)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "zovoD2.unlockWithSponsors",
+        "title": "I already paid: unlock with GitHub Sponsors",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "zovoD2.enterLicenseKey",
+        "title": "Enter Zovo Pro license key",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "zovoD2.removeLicense",
+        "title": "Remove Zovo Pro from this editor",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "zovoD2.payByCard",
+        "title": "Pay for Zovo Pro by card (USD 19)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "zovoD2.enterKey",
+        "title": "Enter a key",
+        "category": "Zovo Pro"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "zovoD2.showPreviewToSide",
+          "when": "editorLangId == d2 && !notebookEditorFocused",
+          "group": "navigation"
+        },
+        {
+          "command": "zovoD2.showSource",
+          "when": "activeWebviewPanelId == 'zovoD2.preview' || activeCustomEditorId == 'zovoD2.viewer'",
+          "group": "navigation"
+        },
+        {
+          "command": "zovoD2.export",
+          "when": "editorLangId == d2 && config.zovoD2.showProTools",
+          "group": "1_d2@1"
+        },
+        {
+          "command": "zovoD2.batchExport",
+          "when": "editorLangId == d2 && config.zovoD2.showProTools",
+          "group": "1_d2@2"
+        },
+        {
+          "command": "zovoD2.export",
+          "when": "(activeWebviewPanelId == 'zovoD2.preview' || activeCustomEditorId == 'zovoD2.viewer') && config.zovoD2.showProTools",
+          "group": "1_d2@1"
+        },
+        {
+          "command": "zovoD2.batchExport",
+          "when": "(activeWebviewPanelId == 'zovoD2.preview' || activeCustomEditorId == 'zovoD2.viewer') && config.zovoD2.showProTools",
+          "group": "1_d2@2"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "zovoD2.showPreview",
+          "when": "resourceLangId == d2",
+          "group": "1_open"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "zovoD2.showPreview",
+          "when": "resourceExtname =~ /^\\.d2$/i && !explorerResourceIsFolder",
+          "group": "navigation@9"
+        },
+        {
+          "command": "zovoD2.zovoPro.export",
+          "when": "resourceExtname =~ /^\\.d2$/i && !explorerResourceIsFolder && config.zovoD2.showProTools",
+          "group": "zovoPro@1"
+        },
+        {
+          "command": "zovoD2.zovoPro.batch",
+          "when": "explorerResourceIsFolder && config.zovoD2.showProTools",
+          "group": "zovoPro@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "zovoD2.showSource",
+          "when": "activeWebviewPanelId == 'zovoD2.preview' || activeCustomEditorId == 'zovoD2.viewer'"
+        },
+        {
+          "command": "zovoD2.export",
+          "when": "config.zovoD2.showProTools"
+        },
+        {
+          "command": "zovoD2.batchExport",
+          "when": "config.zovoD2.showProTools"
+        },
+        {
+          "command": "zovoD2.stopWatch",
+          "when": "zovoD2.watching"
+        },
+        {
+          "command": "zovoD2.zovoPro.export",
+          "when": "false"
+        },
+        {
+          "command": "zovoD2.zovoPro.batch",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "D2 Diagram Viewer",
+      "properties": {
+        "zovoD2.preview.updateDelayMs": {
+          "type": "number",
+          "default": 300,
+          "minimum": 0,
+          "maximum": 5000,
+          "description": "How long the preview waits after you stop typing before it draws again, in milliseconds."
+        },
+        "zovoD2.preview.lightTheme": {
+          "type": "number",
+          "default": 0,
+          "enum": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            300,
+            301,
+            302,
+            303
+          ],
+          "enumItemLabels": [
+            "Neutral Default",
+            "Neutral Grey",
+            "Flagship",
+            "Cool Classics",
+            "Mixed Berry Blue",
+            "Grape Soda",
+            "Aubergine",
+            "Colorblind Clear",
+            "Vanilla Nitro Cola",
+            "Orange Creamsicle",
+            "Shirley Temple",
+            "Earth Tones",
+            "Everglade Green",
+            "Buttered Toast",
+            "Terminal",
+            "Terminal Grayscale",
+            "Origami",
+            "C4"
+          ],
+          "description": "D2 theme of the preview when VS Code uses a light theme and the .d2 file sets no theme of its own. The theme picker in the preview overrides it for one file."
+        },
+        "zovoD2.preview.darkTheme": {
+          "type": "number",
+          "default": 200,
+          "enum": [
+            200,
+            201,
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            300,
+            301,
+            302,
+            303
+          ],
+          "enumItemLabels": [
+            "Dark Mauve",
+            "Dark Flagship",
+            "Neutral Default",
+            "Neutral Grey",
+            "Flagship",
+            "Cool Classics",
+            "Mixed Berry Blue",
+            "Grape Soda",
+            "Aubergine",
+            "Colorblind Clear",
+            "Vanilla Nitro Cola",
+            "Orange Creamsicle",
+            "Shirley Temple",
+            "Earth Tones",
+            "Everglade Green",
+            "Buttered Toast",
+            "Terminal",
+            "Terminal Grayscale",
+            "Origami",
+            "C4"
+          ],
+          "description": "D2 theme of the preview when VS Code uses a dark theme and the .d2 file sets no dark theme of its own."
+        },
+        "zovoD2.renderTimeoutSeconds": {
+          "type": "number",
+          "default": 20,
+          "minimum": 3,
+          "maximum": 600,
+          "description": "A diagram whose layout takes longer than this stops, and the D2 engine starts again for the next drawing."
+        },
+        "zovoD2.maxFileKB": {
+          "type": "number",
+          "default": 2048,
+          "minimum": 16,
+          "description": "Files larger than this show a message instead of a drawing, so VS Code stays responsive."
+        },
+        "zovoD2.export.scale": {
+          "type": "number",
+          "default": 2,
+          "enum": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "description": "Zovo Pro export: the first scale offered for PNG and PDF (and the size of SVG). The export remembers your last choice."
+        },
+        "zovoD2.export.padding": {
+          "type": "number",
+          "default": 100,
+          "minimum": 0,
+          "maximum": 400,
+          "description": "Zovo Pro export and batch export: pixels of empty space around the diagram."
+        },
+        "zovoD2.export.animateIntervalMs": {
+          "type": "number",
+          "default": 1500,
+          "minimum": 200,
+          "maximum": 60000,
+          "description": "Zovo Pro export: how long each board shows in an animated SVG, in milliseconds."
+        },
+        "zovoD2.batch.outputFolder": {
+          "type": "string",
+          "default": "docs/diagrams",
+          "description": "Zovo Pro batch export: the folder for the SVG files, relative to the workspace folder. The folder structure of the .d2 files is kept inside it."
+        },
+        "zovoD2.batch.theme": {
+          "type": "number",
+          "default": 0,
+          "enum": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            300,
+            301,
+            302,
+            303,
+            200,
+            201
+          ],
+          "enumItemLabels": [
+            "Neutral Default",
+            "Neutral Grey",
+            "Flagship",
+            "Cool Classics",
+            "Mixed Berry Blue",
+            "Grape Soda",
+            "Aubergine",
+            "Colorblind Clear",
+            "Vanilla Nitro Cola",
+            "Orange Creamsicle",
+            "Shirley Temple",
+            "Earth Tones",
+            "Everglade Green",
+            "Buttered Toast",
+            "Terminal",
+            "Terminal Grayscale",
+            "Origami",
+            "C4",
+            "Dark Mauve",
+            "Dark Flagship"
+          ],
+          "description": "Zovo Pro batch export: the D2 theme of the SVG files, unless a .d2 file sets its own."
+        },
+        "zovoD2.showProTools": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Zovo Pro tools (export, batch export) in the Command Palette, the Explorer menu, the editor title menu and the preview toolbar. Everything free stays visible."
+        },
+        "zovoD2.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask once for a Marketplace rating after diagrams opened without an error on two occasions at least 30 minutes apart. \"Later\" asks one more time after 7 days, \"No thanks\" never asks again. Nothing is sent anywhere."
+        },
+        "zovoD2.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free tools and Zovo Pro links at the bottom of the preview. Nothing is sent anywhere."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "zovoD2.start",
+        "title": "Get started with D2 Diagram Viewer",
+        "description": "Write D2 text and see the diagram beside it, drawn on your computer.",
+        "steps": [
+          {
+            "id": "open",
+            "title": "Open a .d2 file and its preview",
+            "description": "Open any .d2 file and click the preview button at the top right of the editor. The diagram sits beside the text and redraws as you type.\n[Open the sample diagram](command:zovoD2.openSample)",
+            "media": {
+              "image": "images/screenshot.png",
+              "altText": "A .d2 file in VS Code with its live D2 preview beside it."
+            },
+            "completionEvents": [
+              "onCommand:zovoD2.openSample"
+            ]
+          },
+          {
+            "id": "navigate",
+            "title": "Pan, zoom and jump to a line",
+            "description": "Drag to pan, use the wheel or the + and - buttons to zoom, and Fit to see the whole diagram. Click a shape and the editor jumps to the line where it is written.",
+            "media": {
+              "markdown": "walkthrough/navigate.md"
+            }
+          },
+          {
+            "id": "theme",
+            "title": "Themes, layout and boards",
+            "description": "Theme and Layout in the preview toolbar change only this preview; your VS Code theme stays as it is. Diagrams with layers, scenarios or steps get a board list.\n[Pick a D2 theme](command:zovoD2.pickTheme)",
+            "media": {
+              "markdown": "walkthrough/theme.md"
+            }
+          },
+          {
+            "id": "zovo-related",
+            "title": "Tools that often go with D2",
+            "description": "If your project also has Mermaid, PlantUML or Graphviz diagrams, these free Zovo extensions preview them. A link opens the extension page, and you choose there whether to install it.\n[Mermaid Viewer](command:extension.open?%5B%22zovo.mermaid-viewer%22%5D)\n[PlantUML Viewer](command:extension.open?%5B%22zovo.zovo-plantuml-viewer%22%5D)\n[Graphviz Preview](command:extension.open?%5B%22zovo.zovo-graphviz-preview%22%5D)",
+            "media": {
+              "markdown": "walkthrough/related.md"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node scripts/test.js",
+    "package": "npx -y @vscode/vsce@3 package --no-dependencies"
+  },
+  "devDependencies": {},
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike/sponsorships?tier_id=679878"
+  }
+}

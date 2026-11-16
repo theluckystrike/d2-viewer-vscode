@@ -1,0 +1,29 @@
+/* D2 Diagram Viewer preview. Colours of the frame come from the VS Code theme; the diagram brings its own D2 theme. */
+html, body { margin: 0; padding: 0; height: 100%; }
+body { display: flex; flex-direction: column; font-family: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif); font-size: 13px; color: var(--vscode-editor-foreground); background: var(--vscode-editor-background); overflow: hidden; }
+#toolbar { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 4px 10px; font-size: 12px; line-height: 20px; background: var(--vscode-editor-background); border-bottom: 1px solid var(--vscode-panel-border, rgba(128,128,128,.25)); }
+#toolbar .file { font-weight: 600; opacity: .85; margin-right: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 28%; }
+#toolbar button, #toolbar select { font: inherit; color: var(--vscode-foreground); background: transparent; border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border, rgba(128,128,128,.4))); border-radius: 3px; padding: 0 7px; cursor: pointer; }
+#toolbar select { background: var(--vscode-dropdown-background, transparent); color: var(--vscode-dropdown-foreground, inherit); max-width: 220px; padding: 0 4px; }
+#toolbar button:hover { background: var(--vscode-toolbar-hoverBackground, rgba(128,128,128,.15)); }
+#toolbar button:focus-visible, #toolbar select:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: 1px; }
+#toolbar .seg { display: inline-flex; }
+#toolbar .seg button { border-radius: 0; margin-left: -1px; }
+#toolbar .seg button:first-child { border-radius: 3px 0 0 3px; margin-left: 0; }
+#toolbar .seg button:last-child { border-radius: 0 3px 3px 0; }
+#toolbar .stats { margin-left: auto; opacity: .7; white-space: nowrap; }
+#problem { flex: none; margin: 6px 10px 0; padding: 5px 10px; border-left: 3px solid var(--vscode-inputValidation-errorBorder, #be1100); background: var(--vscode-inputValidation-errorBackground, rgba(190,17,0,.1)); white-space: pre-wrap; font-family: var(--vscode-editor-font-family, monospace); font-size: 12px; max-height: 30vh; overflow: auto; }
+#problem.note { border-left-color: var(--vscode-editorInfo-foreground, #3794ff); background: transparent; font-family: inherit; }
+#problem a { color: var(--vscode-textLink-foreground); cursor: pointer; text-decoration: underline; }
+.hidden { display: none !important; }
+#app { flex: 1 1 auto; position: relative; min-height: 0; }
+#viewport { position: absolute; inset: 0; overflow: hidden; cursor: grab; outline: none; }
+#viewport.dragging { cursor: grabbing; }
+#viewport.over-shape { cursor: pointer; }
+#stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+#diagram { display: block; user-select: none; -webkit-user-drag: none; box-shadow: 0 0 0 1px var(--vscode-panel-border, rgba(128,128,128,.25)); }
+#diagram:not([src]) { display: none; }
+body.has-error #diagram { opacity: .45; }
+#hl { position: absolute; pointer-events: none; border: 2px solid var(--vscode-focusBorder, #007fd4); border-radius: 3px; box-shadow: 0 0 0 3px rgba(0,127,212,.25); transition: opacity .4s; }
+.notice { position: absolute; left: 0; right: 0; top: 30%; text-align: center; opacity: .75; padding: 0 20px; }
+#footer { flex: none; }

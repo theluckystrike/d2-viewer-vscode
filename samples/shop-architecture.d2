@@ -1,0 +1,82 @@
+# Sample diagram for D2 Diagram Viewer (made up for this extension).
+# Edit any line and the preview beside it redraws. Click a shape to jump to its line.
+
+title: |md
+  # Online shop: how an order flows
+| {near: top-center}
+
+direction: right
+
+classes: {
+  service: {
+    style: {
+      border-radius: 8
+      stroke-width: 2
+    }
+  }
+}
+
+customer: Customer {shape: person}
+
+edge: Edge {
+  cdn: CDN {shape: cloud}
+  waf: Firewall {shape: hexagon}
+  cdn -> waf
+}
+
+app: Shop backend {
+  api: Order API {class: service}
+  pay: Payment service {class: service}
+  stock: Stock service {class: service}
+  queue: Order events {shape: queue}
+  api -> pay: charge card
+  api -> stock: reserve items
+  api -> queue: order placed
+}
+
+db: Orders database {shape: cylinder}
+
+orders: {
+  shape: sql_table
+  id: int {constraint: primary_key}
+  customer_id: int {constraint: foreign_key}
+  total_cents: int
+  status: varchar
+}
+
+customer -> edge.cdn: browse and buy
+edge.waf -> app.api: HTTPS
+app.api -> db: write order
+db -> orders: table {style.stroke-dash: 3}
+app.queue -> mail: send receipt
+mail: Email worker {class: service}
+
+layers: {
+  deploy: {
+    title: |md
+      # Where it runs
+    | {near: top-center}
+    region: Cloud region {
+      cluster: Container cluster {
+        web: Web pods {style.multiple: true}
+        worker: Worker pods {style.multiple: true}
+      }
+      managed: Managed database {shape: cylinder}
+      cluster.web -> managed
+      cluster.worker -> managed
+    }
+  }
+}
+
+steps: {
+  "1": {
+    customer -> edge.cdn: 1. open the shop
+  }
+  "2": {
+    edge.waf -> app.api: 2. place the order
+  }
+  "3": {
+    app.api -> app.pay: 3. pay
+    app.queue -> mail: 4. receipt
+  }
+}

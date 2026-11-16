@@ -1,0 +1,234 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "D2",
+  "scopeName": "source.d2.zovo",
+  "comment": "D2 diagram language. Written for D2 Diagram Viewer by Zovo.",
+  "patterns": [
+    {
+      "include": "#block-comment"
+    },
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#block-string"
+    },
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#import"
+    },
+    {
+      "include": "#substitution"
+    },
+    {
+      "include": "#arrow"
+    },
+    {
+      "include": "#keyword"
+    },
+    {
+      "include": "#value"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "block-comment": {
+      "name": "comment.block.d2",
+      "begin": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "comment": {
+      "name": "comment.line.number-sign.d2",
+      "match": "(?<![^\\s{;\\[])#.*$"
+    },
+    "block-string": {
+      "name": "string.unquoted.block.d2",
+      "begin": "(\\|+)(`*)([A-Za-z0-9_+#-]*)[ \\t]*$",
+      "end": "^\\s*(\\2\\1)|(\\2\\1)\\s*$",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.d2"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.d2"
+        },
+        "3": {
+          "name": "entity.name.tag.language.d2"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.end.d2"
+        },
+        "2": {
+          "name": "punctuation.definition.string.end.d2"
+        }
+      }
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.d2",
+          "begin": "\"",
+          "end": "\"|$",
+          "patterns": [
+            {
+              "name": "constant.character.escape.d2",
+              "match": "\\\\."
+            },
+            {
+              "include": "#substitution"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.d2",
+          "begin": "'",
+          "end": "'|$"
+        }
+      ]
+    },
+    "import": {
+      "match": "(\\.\\.\\.)?(@)(\"[^\"]*\"|'[^']*'|[^\\s;{}\\[\\]#,]+)",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.spread.d2"
+        },
+        "2": {
+          "name": "keyword.control.import.d2"
+        },
+        "3": {
+          "name": "string.unquoted.path.d2"
+        }
+      }
+    },
+    "substitution": {
+      "name": "variable.other.substitution.d2",
+      "match": "\\$\\{[^}]*\\}"
+    },
+    "arrow": {
+      "name": "keyword.operator.connection.d2",
+      "match": "<->|<-+|-+>|--+|&"
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "match": "(?<![\\w-])(dark-theme-overrides|theme-overrides|dark-theme-id|layout-engine|theme-id|center|sketch|data|pad)(?=\\s*:)",
+          "name": "support.constant.config.d2"
+        },
+        {
+          "match": "(?<![\\w-])(?:style\\.)?(text-transform|border-radius|double-border|fill-pattern|stroke-width|stroke-dash|font-color|font-size|underline|multiple|animated|opacity|stroke|shadow|italic|fill|font|bold|3d)(?=\\s*:)",
+          "name": "support.type.property-name.style.d2"
+        },
+        {
+          "match": "(?<![\\w-])(source-arrowhead|target-arrowhead|horizontal-gap|grid-columns|vertical-gap|legend-label|constraint|label\\.near|direction|scenarios|grid-rows|d2-config|d2-legend|icon\\.near|grid-gap|tooltip|classes|height|layers|filled|shape|label|style|width|class|steps|icon|near|link|left|vars|top)(?=\\s*[:.{])",
+          "name": "keyword.other.reserved.d2"
+        },
+        {
+          "match": "(?<![\\w-])(_)(?=\\.)",
+          "name": "variable.language.parent.d2"
+        },
+        {
+          "match": "(?<=[\\s.])(\\*\\*?)(?=[\\s.:;-]|$)",
+          "name": "keyword.operator.glob.d2"
+        }
+      ]
+    },
+    "value": {
+      "patterns": [
+        {
+          "match": "(:)[ \\t]*(sequence_diagram|parallelogram|stored_data|rectangle|c4-person|sql_table|document|cylinder|package|callout|diamond|hexagon|square|person|circle|queue|cloud|class|image|page|step|oval|text|code)(?=\\s*($|[;}#]))",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.key-value.d2"
+            },
+            "2": {
+              "name": "entity.name.type.shape.d2"
+            }
+          }
+        },
+        {
+          "match": "(:)[ \\t]*(outside-bottom-center|outside-right-center|outside-right-bottom|outside-bottom-right|border-bottom-center|outside-left-center|outside-left-bottom|outside-bottom-left|border-right-center|border-right-bottom|border-bottom-right|outside-top-center|border-left-center|border-left-bottom|border-bottom-left|outside-top-right|outside-right-top|border-top-center|outside-top-left|outside-left-top|border-top-right|border-right-top|border-top-left|border-left-top|bottom-center|center-right|bottom-right|center-left|bottom-left|top-center|top-right|top-left|up|down|left|right)(?=\\s*($|[;}#]))",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.key-value.d2"
+            },
+            "2": {
+              "name": "support.constant.position.d2"
+            }
+          }
+        },
+        {
+          "match": "(:)[ \\t]*(true|false|null)(?=\\s*($|[;}#,\\]]))",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.key-value.d2"
+            },
+            "2": {
+              "name": "constant.language.d2"
+            }
+          }
+        },
+        {
+          "match": "(?<=[:\\s\\[;,])(-?\\d+(\\.\\d+)?)(?=\\s*($|[;}#,\\]]))",
+          "name": "constant.numeric.d2"
+        },
+        {
+          "match": "(:)[ \\t]*(#[0-9A-Fa-f]{3,8})\\b",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.key-value.d2"
+            },
+            "2": {
+              "name": "constant.other.color.d2"
+            }
+          }
+        },
+        {
+          "comment": "An unquoted label or value after a colon: \"customer: Customer {...}\", \"a -> b: write order\".",
+          "match": "(:)[ \\t]*(?![-+]?\\d+(?:\\.\\d+)?\\s*(?:$|[;}#,\\]]))(?!(?:true|false|null)\\s*(?:$|[;}#,\\]]))([^\\s{};#|\\[\\]'\"@$][^{};\\[\\]]*?)(?=\\s*(?:$|[{};]|\\s#))",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.key-value.d2"
+            },
+            "2": {
+              "name": "string.unquoted.label.d2"
+            }
+          }
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": "\\{",
+          "name": "punctuation.section.block.begin.d2"
+        },
+        {
+          "match": "\\}",
+          "name": "punctuation.section.block.end.d2"
+        },
+        {
+          "match": "\\[",
+          "name": "punctuation.section.array.begin.d2"
+        },
+        {
+          "match": "\\]",
+          "name": "punctuation.section.array.end.d2"
+        },
+        {
+          "match": ";",
+          "name": "punctuation.terminator.d2"
+        },
+        {
+          "match": ":",
+          "name": "punctuation.separator.key-value.d2"
+        }
+      ]
+    }
+  }
+}
